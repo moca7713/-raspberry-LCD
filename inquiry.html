@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<title>お問い合わせフォーム</title>
+		<meta name="revisit_after" content="7 days" />
+		<meta name="robots" content="ALL" />
+		<meta http-equiv="pragma" content="no-cache" />
+		<link rel="index" href="index.html" />
+	</head>
+	<body>
+		<script src="mailform/postcodes/postcode.js" type="text/javascript"></script>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+//
+//  郵便番号検索ゲートウェイサービス
+//  http://www.rescue.ne.jp/
+//
+function openWin()
+{
+ subWindow = window.open("","pSearch","status=no,resizable=yes,scrollbars=yes,menubar=no,width=600,height=400");
+ subWindow.document.write('<body>郵便番号検索サービスに接続しています。<br>');
+ subWindow.document.write('しばらくしても画面が変わらない場合は手入力してください。</body>');
+ document.PostData.submit();
+}
+function setPostcode(post,addr)
+{
+ document.mainForm.郵便番号.value = post;
+ document.mainForm.ご住所.value = addr;
+}
+//-->
+</SCRIPT>
+<form method=POST name="PostData" target="pSearch" action="http://www.rescue.ne.jp/zip/gateway.cgi"><!-- 接続先ゲートウェイ -->
+<input type="hidden" name="set" value="http://micasa-net.com/inquiry/set.cgi"><!-- 接続プログラムのアドレス -->
+<input type="hidden" name="zip_style" value="0"><!-- 1:郵便番号にハイフンを入れない 0:入れる -->
+<input type="hidden" name="addr_style" value="0"><!-- 1:住所に都道府県名を入れない 0:入れる -->
+</form>
+		<div id="mf_wrapper">
+			<div id="mf_header">
+				<h1>お問い合わせフォーム</h1>
+				<h2>INQUIRY FORM</h2>
+			</div>
+			<!--メールフォーム用のHTMLタグはここから-->
+			<form name="mainForm"id="mailform" method="post" action="../../cgi-bin/mailform/send.cgi" onsubmit="return sendmail(this);">
+
+				<table border="0" cellspacing="0" cellpadding="0" class="mailform">
+					<tr>
+						<th>メールアドレス<span>*</span><p>e-mail address</p></th>
+						<td><input type="text" name="email(必須)" size="50" maxlength="50" class="mf" /></td>
+					</tr>
+					<tr>
+						<th>確認用メールアドレス<span>*</span><p>e-mail address</p></th>
+						<td><input type="text" name="confirm_email" size="50" class="mf" /></td>
+					</tr>
+					<tr>
+						<th>お名前<span>*</span><p>your name</p></th>
+						<td><input type="text" name="お名前(必須)" size="30" /></td>
+					</tr>
+					<tr>
+						<th>ご希望の取引種別<p>deal</p></th>
+						<td>
+							<input type="checkbox" name="取引種別" value="売却" /> 売却 sell
+							<input type="checkbox" name="取引種別" value="購入" /> 購入 buy
+							<input type="checkbox" name="取引種別" value="賃貸" /> 賃貸 rent out
+							<input type="checkbox" name="取引種別" value="賃借" /> 賃借 rent
+							<input type="checkbox" name="取引種別" value="その他" /> その他 others
+						</td>
+					</tr>
+					<tr>
+						<th>郵便番号<p>postcode</p></th>
+						<td><input type="text" name="郵便番号" size="10" /></td>
+					</tr>
+					<tr>
+						<th>ご住所<p>address</p></th>
+						<td><input type="text" name="ご住所" size="70" /></td>
+					</tr>
+					<tr>
+						<th>ご用件<p>inquiry body</p></th>
+						<td><textarea name="ご用件" rows="10" cols="70"></textarea></td>
+					</tr>
+					<tr>
+						<th><span>*</span>は必須項目です。</th>
+						<td><input type="submit" value="メールを送信する" /> <input type="reset" name="reset" value="リセット" /></td>
+					</tr>
+				</table>
+			</form>
+			<link rel="stylesheet" href="mailform/mailform.css" type="text/css">
+			<script type="text/javascript" src="mailform/mailform.js" charset="utf-8"></script>
+			<script type="text/javascript" src="cgi-bin/mailform/postcodes/get.cgi?js" charset="utf-8"></script>
+		</div>
+	</body>
+</html>
